@@ -1,0 +1,35 @@
+To open/create database:
+sqlite3 "C:\Users\markp\OneDrive\Documents\Python Projects\HPRelsNotes\HPRelsNotesDb.db"
+
+
+To create the tables from scratch:
+CREATE TABLE spReleases (Softpaq        TEXT PRIMARY KEY NOT NULL,
+                        Category        TEXT,
+                        ReleaseDate     TEXT,
+                        ReleaseVersion  TEXT,
+                        BIOSFamily      TEXT,
+                        CVEsResolved    INTEGER);
+
+CREATE TABLE spToBBID (Softpaq   TEXT NOT NULL, 
+                        BBID     TEXT NOT NULL,
+                        PRIMARY KEY (Softpaq, BBID));
+
+CREATE TABLE spToCVE (Softpaq   VARCHAR(15) NOT NULL,
+                        CVE   TEXT NOT NULL,
+                        PRIMARY KEY (Softpaq, CVE));
+
+CREATE TABLE supportedCategory(Category TEXT PRIMARY KEY NOT NULL);
+CREATE TABLE supportedOS(OS TEXT PRIMARY KEY NOT NULL);
+CREATE TABLE supportedOSVer(OSVer TEXT PRIMARY KEY NOT NULL);
+CREATE TABLE supportedBBID(BBID TEXT PRIMARY KEY NOT NULL);
+
+
+To prime the tables with some data:
+INSERT INTO SupportedCategory (Category) VALUES ('Bios'), ('Firmware'), ('Driver'), ('Software'), ('Manageability'), ('Dock');
+INSERT INTO SupportedBBID (BBID) VALUES ('857F'), ('82CA'), ('8414'), ('85B9'), ('8589'), ('83D5');
+INSERT INTO SupportedOS (OS) VALUES ('win10'), ('win11');
+INSERT INTO SupportedOSVer (OSVer) VALUES ('1909'), ('2009'), ('21H1'), ('21H2');
+INSERT INTO spReleases (Softpaq, Category, ReleaseDate, ReleaseVersion, BIOSFamily, CVEsResolved) VALUES ('sp0001', 'Bios', '1900-01-01', '00.01', 'A01', 5);
+
+
+Dates must be stored as text in the format: 'YYYY-MM-DD HH:MM:SS.SSS'
