@@ -6,7 +6,7 @@ import threading
 from itertools import product
 from queue import Queue
 from db_ops import db_read_onecol, db_read_twocol
-from sp_ops import process_sp
+from sp_ops import process_sp, spRels
 
 def issue_cmsl(q, result):
     """Function to retrieve softpaq numbers via the HP CMSL get-softpaqlist powershell command.
@@ -74,6 +74,8 @@ def issue_cmsl(q, result):
 
 # Main code starts here.
 def main():
+
+    spRels('sp142737')
 
     # Initialize logging.
     logging.basicConfig(level=logging.INFO, filename=f'hpRelsLog-{datetime.now().strftime("%Y%m%d%H%M")}.log', format='%(asctime)s %(message)s', filemode='w')

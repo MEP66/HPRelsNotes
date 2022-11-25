@@ -42,7 +42,8 @@ def test_MissingBIOS_spRels():
 
 def test_NoDetailFileInfo_spRels():
     """Test previously problematic sp142737, where the [DetailFileInformation]"""
-    """section is present but blank, therefore BIOS family is defaulted to empty."""
+    """section is present but blank. Therefore the BIOS family is retrieved"""
+    """from the Software Title section."""
 
     assert spRels('sp142737')=={
         'avail': True, 
@@ -50,7 +51,7 @@ def test_NoDetailFileInfo_spRels():
         'cat': 'BIOS', 
         'reldate': datetime.datetime(2022, 9, 28, 0, 0), 
         'relver': '01.21.10', 
-        'biosfam': '', 
+        'biosfam': 'R91', 
         'supersp': ['sp141549'], 
         'sysids': ['85B9'], 
         'cves': ['CVE-2022-31644', 'CVE-2022-31645', 'CVE-2022-31646', 'CVE-2022-27537'], 

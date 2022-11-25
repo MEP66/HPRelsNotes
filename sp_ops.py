@@ -164,13 +164,17 @@ def spRels(spNum):
         category = rn_config['General']['Category']
         
         # If this is a BIOS release, get the BIOS family and release version.
-        # Check to see if DetailFileInforation is empty. (eg. sp142737)
+        # Check to see if DetailFileInforation is empty. (eg. sp142737). If so,
+        # retrieve the BIOS Family info from the Software Title.
         if category.upper() == 'BIOS':
             if rn_config['DetailFileInformation']:
                 bios_family = next(iter(rn_config['DetailFileInformation'].items()))[1]
                 bios_family = bios_family.split(',')[1]
             else:
-                bios_family = ''
+                value = list(rn_config['Software Title'].items())[0][1]
+                bios_family = re.search(r'\(\w+\)', value.upper())[0][1:-1]
+                if bios_family == None:
+                    bios_family = ''
         else:
             bios_family = ''
         
