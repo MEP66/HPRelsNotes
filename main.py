@@ -57,7 +57,7 @@ def issue_cmsl(q, result):
         logger.info(f'Queue {str(work[0])}: {str(work[1])} requested')
 
         bbid, hp_os, hp_osver, hp_category = work[1]
-        psCommand = f'powershell.exe get-softpaqlist -platform {bbid} -os {hp_os} -osver {hp_osver} -Category {hp_category}'
+        psCommand = f'powershell.exe get-softpaqlist -platform {bbid} -os {hp_os} -osver {hp_osver} -Category {hp_category} -Overwrite yes'
         process = subprocess.Popen(psCommand, stdout=subprocess.PIPE)
         comm_result = process.communicate()[0]
         sp_list = re.findall(r'Id.*: sp\d+', comm_result.decode('utf-8'))  # Get all sp Id entries. Can be more than one.
