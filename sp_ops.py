@@ -18,7 +18,7 @@ def process_sp(sp, rl, processed_this, processed_previous):
 
         # Continue if this sp has not already been processed during this execution.
 
-        processed_this.append(sp)
+        processed_this.add(sp)
         sp_info = spRels(sp)
 
         if sp in processed_previous:
@@ -133,11 +133,19 @@ def spRels(spNum):
 
     # Fetch the release notes file from HP's site.
 
-    rels_notes = requests.get(ftp_path)
+    try:
+        rels_notes = requests.get(ftp_path)
+        
+        # If the status of the get is between 200 and 400, the response will evaluate to True, and False otherwise.
+        if rels_notes:
+            rels_found = True
+        else:
+            rels_found = False
+    except ConnectTimeoutError:
+        logger.error(f"{' ' * rl * 3}HP Site connection timeout for: {sp}")
+        rels_found = False
 
-    # If the status of the get is between 200 and 400, the response will evaluate to True, and False otherwise.
-
-    if rels_notes:
+    if rels_found:
         available = True
 
         # Get the contents of the release notes file.
