@@ -73,7 +73,7 @@ def issue_cmsl(q, result):
 
 
 # Main code starts here.
-def main():
+if __name__ == '__main__':
 
     # Initialize logging.
     logging.basicConfig(level=logging.INFO, filename=f'hpRelsLog-{datetime.now().strftime("%Y%m%d%H%M")}.log', format='%(asctime)s %(message)s', filemode='w')
@@ -124,10 +124,8 @@ def main():
 
     # Combine the results into a single list and get rid of duplicates.
 
-    sp_to_process = []
-    for item in cmsl_results:
-        for sp in item:
-            sp_to_process.append(sp)
+    sp_to_process = [sp for item in cmsl_results
+                        for sp in item]
     sp_to_process = list(dict.fromkeys(sp_to_process))
     del cmsl_results
 
@@ -147,14 +145,10 @@ def main():
     # Process all of the softpaqs returned from the CMSL PowerShell command.
 
     recurse_level = 0
-    sp_processed_this = []
+    sp_processed_this = set()
 
     for sp in sp_to_process:
         process_sp(sp, recurse_level, sp_processed_this, sp_processed_previous)
 
     logger.info('Execution complete.')
     print('Execution complete.')
-
-
-if __name__ == '__main__':
-    main()
